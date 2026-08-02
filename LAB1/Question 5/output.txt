@@ -1,0 +1,7 @@
+n          Actual Partition     Found Partition     
+10         4                    4                   
+20         0                    0                   
+20         20                   20                  
+15         7                    7                   
+1000       623                  623                 
+1000000    500000               500000
