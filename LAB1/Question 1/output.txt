@@ -1,0 +1,20 @@
+cd ~/DAA-Lab/LAB1/"Question 1"
+cat > output.txt << 'EOF'
+Order of growth (increasing), n -> infinity:
+
+ 1. 1/n             (log2 f(n) ~ -100000)
+ 2. log2(n)         (log2 f(n) ~ 16.6096)
+ 3. 12*sqrt(n)      (log2 f(n) ~ 50003.6)
+ 4. 50*n^0.5        (log2 f(n) ~ 50005.6)
+ 5. n^0.51          (log2 f(n) ~ 51000)
+ 6. n*log2(n)       (log2 f(n) ~ 100017)
+ 7. 2^32 * n        (log2 f(n) ~ 100032)
+ 8. n^2 - 324       (log2 f(n) ~ 200000)
+ 9. 100n^2 + 6n     (log2 f(n) ~ 200007)
+10. 2n^3            (log2 f(n) ~ 300001)
+11. n^log2(n)       (log2 f(n) ~ 1e+10)
+12. 3^n             (log2 f(n) ~ inf)
+EOF
+git add output.txt
+git commit -m "Add output for Q1"
+git push origin main
