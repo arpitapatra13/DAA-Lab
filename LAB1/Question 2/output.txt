@@ -1,0 +1,21 @@
+Fair Coin Simulation (true P(HEAD) = 0.50)
+Tosses(n)    P(HEAD) observed
+10           0.40000        
+100          0.51000        
+1000         0.49200        
+10000        0.49600        
+100000       0.49987        
+1000000      0.50038        
+
+Biased Coin Simulation (true P(HEAD) = 0.70)
+Tosses(n)    P(HEAD) observed
+10           0.70000        
+100          0.81000        
+1000         0.69900        
+10000        0.69930        
+100000       0.69957        
+1000000      0.70014        
+
+Comparison at n = 1000000:
+Fair coin   -> observed P(HEAD) = 0.49983 (expected ~0.5)
+Biased coin -> observed P(HEAD) = 0.70020 (expected ~0.70)
