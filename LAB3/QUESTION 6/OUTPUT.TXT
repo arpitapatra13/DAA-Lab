@@ -1,0 +1,9 @@
+Original array: 64 25 12 22 11 
+
+Number of comparisons = 10
+Number of swaps       = 3
+Sorted array:   11 12 22 25 64 
+
+Time Complexity:
+Best Case  = Theta(n^2)  
+Worst Case = Theta(n^2)
