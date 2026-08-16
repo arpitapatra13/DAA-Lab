@@ -1,0 +1,7 @@
+Enter number of coins: 10
+Enter the weights of 10 coins:
+11 17 13 18 55 22 94 44 12 04
+
+Required coin weight = 94
+Defective coin found at position 1.
+Defective coin weight = 11
