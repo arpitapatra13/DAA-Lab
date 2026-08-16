@@ -1,0 +1,13 @@
+Enter the size of square matrices: 2
+
+Enter elements of Matrix A:
+1 5 
+8 9
+
+Enter elements of Matrix B:
+6 7
+3 4
+
+Resultant Matrix (A x B):
+21      27
+75      92
