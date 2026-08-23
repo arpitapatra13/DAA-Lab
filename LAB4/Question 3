@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+int compare(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
+}
+int binarySearch(int arr[], int left, int right, int target)
+{
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target)
+            return 1;
+
+        if (arr[mid] < target)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    return 0;
+}
+int findKSum(int arr[], int n, int k, int start, long long target)
+{
+    if (k == 1)
+    {
+        return binarySearch(arr, start, n - 1, target);
+    }
+    for (int i = start; i <= n - k; i++)
+    {
+        if (findKSum(arr, n, k - 1, i + 1, target - arr[i]))
+            return 1;
+    }
+    return 0;
+}
+int main()
+{
+    int n, k;
+    long long T;
+    printf("Enter number of integers: ");
+    scanf("%d", &n);
+    int arr[n];
+    printf("Enter the integers:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+    printf("Enter k: ");
+    scanf("%d", &k);
+    printf("Enter target T: ");
+    scanf("%lld", &T);
+    if (k > n || k <= 0)
+    {
+        printf("Invalid value of k\n");
+        return 0;
+    }
+    qsort(arr, n, sizeof(int), compare);
+    if (findKSum(arr, n, k, 0, T))
+        printf("Yes, %d integers in S add up to %lld\n", k, T);
+    else
+        printf("No such %d integers exist\n", k);
+    return 0;
+}
