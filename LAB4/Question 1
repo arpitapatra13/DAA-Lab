@@ -1,0 +1,48 @@
+#include <stdio.h>
+struct Item
+{
+    int number;
+    int colour;
+};
+void sortByColour(struct Item a[], int n, struct Item result[])
+{
+    int k = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i].colour == 0)
+            result[k++] = a[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i].colour == 1)
+            result[k++] = a[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i].colour == 2)
+            result[k++] = a[i];
+    }
+}
+int main()
+{
+    int n;
+    printf("Enter number of items: ");
+    scanf("%d", &n);
+    struct Item a[n], result[n];
+    printf("Enter number and colour (0=Red, 1=Blue, 2=Yellow):\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d %d", &a[i].number, &a[i].colour);
+    sortByColour(a, n, result);
+    printf("\nSorted items:\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", result[i].number);
+        if (result[i].colour == 0)
+            printf("Red\n");
+        else if (result[i].colour == 1)
+            printf("Blue\n");
+        else
+            printf("Yellow\n");
+    }
+    return 0;
+}
