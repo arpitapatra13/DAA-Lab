@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct
+{
+    int point;
+    int type;
+} Event;
+int compare(const void *a, const void *b)
+{
+    Event *x = (Event *)a;
+    Event *y = (Event *)b;
+    if (x->point != y->point)
+        return x->point - y->point;
+    return y->type - x->type;
+}
+int main()
+{
+    int n;
+    printf("Enter number of intervals: ");
+    scanf("%d", &n);
+    Event events[2 * n];
+    printf("Enter intervals (left right):\n");
+    for (int i = 0; i < n; i++)
+    {
+        int l, r;
+        scanf("%d %d", &l, &r);
+        events[2 * i].point = l;
+        events[2 * i].type = 1;
+        events[2 * i + 1].point = r;
+        events[2 * i + 1].type = -1;
+    }
+    qsort(events, 2 * n, sizeof(Event), compare);
+    int count = 0;
+    int maxCount = 0;
+    int p = events[0].point;
+    for (int i = 0; i < 2 * n; i++)
+    {
+        count += events[i].type;
+        if (count > maxCount)
+        {
+            maxCount = count;
+            p = events[i].point;
+        }
+    }
+    printf("Point contained in maximum intervals: %d\n", p);
+    printf("Maximum number of intervals: %d\n", maxCount);
+    return 0;
+}
