@@ -1,0 +1,164 @@
+#include <stdio.h>
+#include <math.h>
+#define MAX 100
+void inputMatrix(int a[MAX][MAX], int n)
+{
+    printf("Enter matrix elements:\n");
+
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            scanf("%d", &a[i][j]);
+        }
+    }
+}
+void displayMatrix(int a[MAX][MAX], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+            printf("%d ", a[i][j]);
+
+        printf("\n");
+    }
+}
+/* (i) Matrix Addition */
+void matrixAddition(int a[MAX][MAX], int b[MAX][MAX],
+                    int c[MAX][MAX], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            c[i][j] = a[i][j] + b[i][j];
+        }
+    }
+}
+/* (ii) Matrix Multiplication */
+void matrixMultiplication(int a[MAX][MAX], int b[MAX][MAX],
+                          int c[MAX][MAX], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            c[i][j] = 0;
+
+            for(int k = 0; k < n; k++)
+            {
+                c[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+}
+/* (iii) Zero Matrix */
+int isZeroMatrix(int a[MAX][MAX], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            if(a[i][j] != 0)
+                return 0;
+        }
+    }
+    return 1;
+}
+/* (iv) Symmetric Matrix */
+int isSymmetric(int a[MAX][MAX], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = i + 1; j < n; j++)
+        {
+            if(a[i][j] != a[j][i])
+                return 0;
+        }
+    }
+    return 1;
+}
+/* (v) Determinant */
+int determinant(int a[MAX][MAX], int n)
+{
+    if(n == 1)
+        return a[0][0];
+    if(n == 2)
+        return a[0][0] * a[1][1] -
+               a[0][1] * a[1][0];
+    int det = 0;
+    int sub[MAX][MAX];
+    for(int x = 0; x < n; x++)
+    {
+        int subi = 0;
+        for(int i = 1; i < n; i++)
+        {
+            int subj = 0;
+            for(int j = 0; j < n; j++)
+            {
+                if(j == x)
+                    continue;
+                sub[subi][subj] = a[i][j];
+                subj++;
+            }
+            subi++;
+        }
+        if(x % 2 == 0)
+            det += a[0][x] * determinant(sub, n - 1);
+        else
+            det -= a[0][x] * determinant(sub, n - 1);
+    }
+    return det;
+}
+/* (vi) In-place Transpose */
+void transpose(int a[MAX][MAX], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = i + 1; j < n; j++)
+        {
+            int temp = a[i][j];
+            a[i][j] = a[j][i];
+            a[j][i] = temp;
+        }
+    }
+}
+int main()
+{
+    int n;
+    int A[MAX][MAX];
+    int B[MAX][MAX];
+    int C[MAX][MAX];
+    printf("Enter order of square matrix: ");
+    scanf("%d", &n);
+    printf("\nEnter Matrix A:\n");
+    inputMatrix(A, n);
+    printf("\nEnter Matrix B:\n");
+    inputMatrix(B, n);
+    /* Matrix Addition */
+    matrixAddition(A, B, C, n);
+    printf("\nMatrix Addition:\n");
+    displayMatrix(C, n);
+    /* Matrix Multiplication */
+    matrixMultiplication(A, B, C, n);
+    printf("\nMatrix Multiplication:\n");
+    displayMatrix(C, n);
+    /* Zero Matrix */
+    if(isZeroMatrix(A, n))
+        printf("\nMatrix A is a Zero Matrix.\n");
+    else
+        printf("\nMatrix A is not a Zero Matrix.\n");
+    /* Symmetric Matrix */
+    if(isSymmetric(A, n))
+        printf("Matrix A is Symmetric.\n");
+    else
+        printf("Matrix A is not Symmetric.\n");
+    /* Determinant */
+    printf("Determinant of Matrix A = %d\n",
+           determinant(A, n));
+    /* Transpose */
+    transpose(A, n);
+    printf("\nTranspose of Matrix A:\n");
+    displayMatrix(A, n);
+    return 0;
+}
