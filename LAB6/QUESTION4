@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+long long totalCost = 0;
+int reversalCount = 0;
+/* Reverse p[i...j] */
+void reverse(int p[], int i, int j)
+{
+    if(i >= j)
+        return;
+    totalCost += (j - i + 1);
+    reversalCount++;
+    while(i < j)
+    {
+        int temp = p[i];
+        p[i] = p[j];
+        p[j] = temp;
+
+        i++;
+        j--;
+    }
+}
+/* Check whether array is sorted */
+int isSorted(int p[], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        if(p[i] != i + 1)
+            return 0;
+    }
+    return 1;
+}
+void reversalSort(int p[], int left, int right)
+{
+    if(left >= right)
+        return;
+    int mid = (left + right) / 2;
+    reversalSort(p, left, mid);
+    reversalSort(p, mid + 1, right);
+    for(int i = left; i <= right; i++)
+    {
+        if(p[i] == i + 1)
+            continue;
+        int pos = i;
+        while(pos <= right && p[pos] != i + 1)
+            pos++;
+        if(pos <= right)
+            reverse(p, i, pos);
+    }
+}
+int main()
+{
+    int n;
+    printf("Enter n: ");
+    scanf("%d", &n);
+    int *p = (int *)malloc(n * sizeof(int));
+    printf("Enter permutation:\n");
+    for(int i = 0; i < n; i++)
+        scanf("%d", &p[i]);
+    reversalSort(p, 0, n - 1);
+    printf("\nSorted permutation:\n");
+    for(int i = 0; i < n; i++)
+        printf("%d ", p[i]);
+    printf("\n");
+    printf("Number of reversals = %d\n", reversalCount);
+    printf("Total reversal cost = %lld\n", totalCost);
+    if(isSorted(p, n))
+        printf("Permutation sorted successfully.\n");
+    else
+        printf("Permutation is not sorted.\n");
+    free(p);
+    return 0;
+}
