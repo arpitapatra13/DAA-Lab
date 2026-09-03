@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <math.h>
+#define PI 3.14159265358979323846
+typedef struct
+{
+    double real;
+    double imag;
+} Complex;
+Complex add(Complex a, Complex b)
+{
+    Complex c;
+    c.real = a.real + b.real;
+    c.imag = a.imag + b.imag;
+    return c;
+}
+Complex subtract(Complex a, Complex b)
+{
+    Complex c;
+    c.real = a.real - b.real;
+    c.imag = a.imag - b.imag;
+    return c;
+}
+Complex multiply(Complex a, Complex b)
+{
+    Complex c;
+    c.real = a.real * b.real - a.imag * b.imag;
+    c.imag = a.real * b.imag + a.imag * b.real;
+    return c;
+}
+void FFT(Complex a[], int n, int inverse)
+{
+    if(n <= 1)
+        return;
+    Complex even[n / 2];
+    Complex odd[n / 2];
+    for(int i = 0; i < n / 2; i++)
+    {
+        even[i] = a[2 * i];
+        odd[i] = a[2 * i + 1];
+    }
+    FFT(even, n / 2, inverse);
+    FFT(odd, n / 2, inverse);
+    double angle = 2 * PI / n;
+    if(inverse)
+        angle = -angle;
+    Complex w;
+    w.real = 1;
+    w.imag = 0;
+    Complex wn;
+    wn.real = cos(angle);
+    wn.imag = sin(angle);
+    for(int k = 0; k < n / 2; k++)
+    {
+        Complex t = multiply(w, odd[k]);
+
+        a[k] = add(even[k], t);
+        a[k + n / 2] = subtract(even[k], t);
+        w = multiply(w, wn);
+    }
+    if(inverse)
+    {
+        for(int i = 0; i < n; i++)
+        {
+            a[i].real /= n;
+            a[i].imag /= n;
+        }
+    }
+}
+int nextPowerOfTwo(int n)
+{
+    int p = 1;
+    while(p < n)
+        p *= 2;
+    return p;
+}
+int main()
+{
+    int m, n;
+    printf("Enter size of vector A: ");
+    scanf("%d", &m);
+    printf("Enter size of vector B: ");
+    scanf("%d", &n);
+    int size = nextPowerOfTwo(m + n - 1);
+    Complex A[size];
+    Complex B[size];
+    for(int i = 0; i < size; i++)
+    {
+        A[i].real = 0;
+        A[i].imag = 0;
+        B[i].real = 0;
+        B[i].imag = 0;
+    }
+    printf("Enter elements of A:\n");
+    for(int i = 0; i < m; i++)
+        scanf("%lf", &A[i].real);
+    printf("Enter elements of B:\n");
+    for(int i = 0; i < n; i++)
+        scanf("%lf", &B[i].real);
+    FFT(A, size, 0);
+    FFT(B, size, 0);
+    for(int i = 0; i < size; i++)
+        A[i] = multiply(A[i], B[i]);
+    FFT(A, size, 1);
+    printf("\nConvolution C:\n");
+    for(int i = 0; i < m + n - 1; i++)
+        printf("C[%d] = %.2f\n", i, A[i].real);
+    return 0;
+}
